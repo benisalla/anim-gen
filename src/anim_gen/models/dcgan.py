@@ -35,9 +35,7 @@ class DCGANGenerator(nn.Module):
         super().__init__()
         self.config = config
         widths = gan_widths(config.image_size // 2, config.g_channels, config.max_channels)
-        self.embed = (
-            nn.Embedding(config.num_classes, config.z_dim) if config.num_classes else None
-        )
+        self.embed = nn.Embedding(config.num_classes, config.z_dim) if config.num_classes else None
         in_dim = config.z_dim * (2 if self.embed is not None else 1)
 
         layers: list[nn.Module] = [
@@ -86,7 +84,9 @@ class DCGANDiscriminator(nn.Module):
         feature_dim = widths[4] * 4 * 4
         self.head = sn(nn.Linear(feature_dim, 1), use_sn)
         self.embed = (
-            sn(nn.Embedding(config.num_classes, feature_dim), use_sn) if config.num_classes else None
+            sn(nn.Embedding(config.num_classes, feature_dim), use_sn)
+            if config.num_classes
+            else None
         )
         self.apply(_dcgan_init)
 

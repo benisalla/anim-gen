@@ -1,9 +1,9 @@
 """Network architectures and a small registry to build them from a ModelConfig.
 
-    arch     family      networks
-    dcgan    GAN         DCGANGenerator / DCGANDiscriminator
-    resnet   GAN         ResNetGenerator / ResNetDiscriminator (SNGAN / BigGAN style)
-    unet     diffusion   UNet denoiser (DDPM / improved DDPM)
+arch     family      networks
+dcgan    GAN         DCGANGenerator / DCGANDiscriminator
+resnet   GAN         ResNetGenerator / ResNetDiscriminator (SNGAN / BigGAN style)
+unet     diffusion   UNet denoiser (DDPM / improved DDPM)
 """
 
 from __future__ import annotations

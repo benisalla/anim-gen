@@ -137,7 +137,6 @@ from pathlib import Path
 
 import torch
 
-from anim_gen.config import PRESETS, DataConfig, ModelConfig, TrainConfig
 from anim_gen.train import configs_from_args, parse_args
 
 PRESET = "cifar10-resnet"   # see the table above, or anim_gen.config.PRESETS

@@ -109,7 +109,9 @@ class UNet(nn.Module):
         self.config = config
         ch = config.unet_channels
         emb_dim = 4 * ch
-        self.time_mlp = nn.Sequential(nn.Linear(ch, emb_dim), nn.SiLU(), nn.Linear(emb_dim, emb_dim))
+        self.time_mlp = nn.Sequential(
+            nn.Linear(ch, emb_dim), nn.SiLU(), nn.Linear(emb_dim, emb_dim)
+        )
         # One extra row: index num_classes = "no label" (classifier-free guidance).
         self.class_embed = (
             nn.Embedding(config.num_classes + 1, emb_dim) if config.num_classes else None
@@ -158,7 +160,9 @@ class UNet(nn.Module):
         assert not skip_widths
 
         self.out = nn.Sequential(
-            group_norm(width), nn.SiLU(), zero_module(nn.Conv2d(width, config.channels, 3, padding=1))
+            group_norm(width),
+            nn.SiLU(),
+            zero_module(nn.Conv2d(width, config.channels, 3, padding=1)),
         )
 
     def forward(
