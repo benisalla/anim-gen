@@ -152,7 +152,8 @@ def generated_stats(
     while todo > 0:
         n = min(batch_size, todo)
         labels = task.random_labels(n, generator)
-        images = task.generate(task.noise(n, generator), labels, **generate_kwargs)
+        noise = task.noise(n, generator)
+        images = task.generate(noise, labels, generator=generator, **generate_kwargs)
         stats.add(extractor(images))
         todo -= n
     mu, cov = stats.all_reduce().mean_cov()

@@ -127,6 +127,12 @@ on a target with a plain MSE:
 - `prediction = "eps"`: the noise ε (DDPM),
 - `prediction = "v"`: v = sqrt(ᾱ_t)·ε − sqrt(1 − ᾱ_t)·x_0 (better at higher resolution).
 
+All diffusion presets use **v**. With ε, the clean-image estimate
+x_0 = (x_t − sqrt(1 − ᾱ_t)·ε̂) / sqrt(ᾱ_t) divides by a tiny number at the noisiest
+steps (sqrt(ᾱ) ≈ 0.014 at t = 990 with the cosine schedule), so small ε errors are
+amplified ~70×. On MNIST this showed up as grey, speckled backgrounds; the same model
+trained with v had clean ones (see [testing.md](testing.md#3-sanity-runs-on-real-data)).
+
 **Sampling** (DDIM, Song et al. 2021): start from pure noise and repeat
 "estimate x_0, step to a less noisy t". `eta = 0` is deterministic and good
 with 50–250 steps; `eta = 1` with all T steps is the original DDPM sampler.

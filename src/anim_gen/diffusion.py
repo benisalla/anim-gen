@@ -139,7 +139,8 @@ class GaussianDiffusion(nn.Module):
             sigma = eta * ((1 - a_prev) / (1 - a) * (1 - a / a_prev)).clamp(min=0).sqrt()
             x = a_prev.sqrt() * x0 + (1 - a_prev - sigma**2).clamp(min=0).sqrt() * eps
             if eta > 0 and i + 1 < len(ts):
-                z = torch.randn(x.shape, device=x.device, generator=generator)
+                # CPU generator (like task.noise): same images for a seed on any device
+                z = torch.randn(x.shape, generator=generator).to(x.device)
                 x = x + sigma * z
         return x.clamp(-1, 1)
 

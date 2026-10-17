@@ -70,3 +70,15 @@ def test_image_helpers():
     assert to_uint8(x).tolist() == [0, 128, 255, 255]
     grid = image_grid(torch.zeros(4, 1, 8, 8), nrow=2, padding=0)
     assert grid.shape == (3, 16, 16) and grid.dtype == torch.uint8
+
+
+def test_stochastic_sampling_is_reproducible_with_a_seed(checkpoint):
+    task, _ = checkpoint
+    if task.family != "diffusion":
+        pytest.skip("eta only applies to diffusion")
+    runs = [
+        generate(task, 3, torch.tensor([0, 1, 2]), generator=torch.Generator().manual_seed(7),
+                 steps=4, eta=1.0)
+        for _ in range(2)
+    ]  # fmt: skip
+    assert torch.equal(runs[0], runs[1])

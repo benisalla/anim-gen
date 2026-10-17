@@ -89,7 +89,8 @@ def generate(
     for start in range(0, num, batch_size):
         n = min(batch_size, num - start)
         batch_labels = None if labels is None else labels[start : start + n]
-        out.append(task.generate(task.noise(n, generator), batch_labels, **kwargs).cpu())
+        noise = task.noise(n, generator)
+        out.append(task.generate(noise, batch_labels, generator=generator, **kwargs).cpu())
     return torch.cat(out)
 
 
@@ -104,7 +105,7 @@ def interpolate(
     noise = torch.stack(frames, dim=1).flatten(0, 1)  # row-major: [rows * cols, ...]
     if labels is not None:
         labels = labels[:rows].repeat_interleave(cols)
-    return task.generate(noise, labels, **kwargs).cpu()
+    return task.generate(noise, labels, generator=generator, **kwargs).cpu()
 
 
 def main(argv: Sequence[str] | None = None) -> None:
