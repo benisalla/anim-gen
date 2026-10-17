@@ -42,9 +42,9 @@ flowchart LR
 
 CPU sanity runs (shared, heavily loaded 8-core CPU; no GPU). Conditional models: row r = digit r.
 
-| DCGAN, non-saturating loss, 4k steps | DCGAN, LSGAN + R1, 3k steps | diffusion U-Net (0.44M), v-prediction, 2.5k steps |
+| DCGAN, non-saturating, 4k steps | ResNet GAN, hinge + SN + attention, 3k steps | diffusion U-Net, v-prediction, 2.5k steps |
 |---|---|---|
-| ![](docs/images/mnist-dcgan-4k.png) | ![](docs/images/mnist-dcgan-lsgan-3k.png) | ![](docs/images/mnist-diffusion-v-2.5k.png) |
+| ![](docs/images/mnist-dcgan-4k.png) | ![](docs/images/mnist-resnet32-3k.png) | ![](docs/images/mnist-diffusion-v-2.5k.png) |
 
 Every architecture and GAN loss was trained on MNIST; the full record (including what
 did *not* work, e.g. ε-prediction backgrounds and WGAN-GP with a BatchNorm critic) is in
