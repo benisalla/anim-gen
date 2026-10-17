@@ -51,7 +51,7 @@ def code(text: str) -> None:
 
 # ---------------------------------------------------------------------------
 md("""
-# tiny-imagegen — training notebook (Kaggle & Colab)
+# imagegen — training notebook (Kaggle & Colab)
 
 Train an image generator on a **free Kaggle or Colab GPU**: a GAN (DCGAN or
 ResNet-SNGAN) or a diffusion model (DDPM/DDIM U-Net), on MNIST, CIFAR-10 or
@@ -154,7 +154,7 @@ if ON_COLAB and USE_GOOGLE_DRIVE:
     from google.colab import drive
 
     drive.mount("/content/drive")
-    WORK = Path("/content/drive/MyDrive/tiny-imagegen")
+    WORK = Path("/content/drive/MyDrive/imagegen")
 elif ON_KAGGLE:
     WORK = Path("/kaggle/working")
 elif ON_COLAB:

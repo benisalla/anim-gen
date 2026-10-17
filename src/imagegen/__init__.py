@@ -1,4 +1,4 @@
-"""tiny-imagegen: image generation with GANs (DCGAN, ResNet-SNGAN) and diffusion (DDPM/DDIM U-Net)."""
+"""imagegen: image generation with GANs (DCGAN, ResNet-SNGAN) and diffusion (DDPM/DDIM U-Net)."""
 
 from imagegen.config import PRESETS, DataConfig, ModelConfig, TrainConfig
 

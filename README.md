@@ -1,4 +1,4 @@
-# tiny-imagegen
+# imagegen
 
 **Generate images of animals (and digits, and objects) with GANs and diffusion models, in plain PyTorch.**
 
