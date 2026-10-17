@@ -10,10 +10,10 @@ from __future__ import annotations
 
 from torch import nn
 
-from anim_gen.config import ModelConfig
-from anim_gen.models.dcgan import DCGANDiscriminator, DCGANGenerator
-from anim_gen.models.resnet_gan import ResNetDiscriminator, ResNetGenerator
-from anim_gen.models.unet import UNet
+from imagegen.config import ModelConfig
+from imagegen.models.dcgan import DCGANDiscriminator, DCGANGenerator
+from imagegen.models.resnet_gan import ResNetDiscriminator, ResNetGenerator
+from imagegen.models.unet import UNet
 
 GENERATORS = {"dcgan": DCGANGenerator, "resnet": ResNetGenerator}
 DISCRIMINATORS = {"dcgan": DCGANDiscriminator, "resnet": ResNetDiscriminator}

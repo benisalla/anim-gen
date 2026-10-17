@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from anim_gen.diffusion import GaussianDiffusion, make_alpha_bar
+from imagegen.diffusion import GaussianDiffusion, make_alpha_bar
 
 
 @pytest.mark.parametrize("schedule", ["linear", "cosine"])

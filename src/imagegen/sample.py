@@ -1,9 +1,9 @@
 """Generate images from a trained checkpoint.
 
-    anim-sample --checkpoint checkpoints/run/last.pt --num 64 --out samples.png
-    anim-sample --checkpoint ... --class dog --num 16 --out dogs.png
-    anim-sample --checkpoint ... --num 1000 --folder generated/      # one PNG per image
-    anim-sample --checkpoint ... --interpolate 8 --out walk.png      # latent walks
+    imagegen-sample --checkpoint checkpoints/run/last.pt --num 64 --out samples.png
+    imagegen-sample --checkpoint ... --class dog --num 16 --out dogs.png
+    imagegen-sample --checkpoint ... --num 1000 --folder generated/      # one PNG per image
+    imagegen-sample --checkpoint ... --interpolate 8 --out walk.png      # latent walks
 
 Sampling always uses the EMA weights stored in the checkpoint.
 """
@@ -18,10 +18,10 @@ from pathlib import Path
 
 import torch
 
-from anim_gen.config import DataConfig, ModelConfig, config_from_dict
-from anim_gen.images import save_grid, save_images
-from anim_gen.runtime import resolve_device, resolve_precision
-from anim_gen.tasks import Task, build_task
+from imagegen.config import DataConfig, ModelConfig, config_from_dict
+from imagegen.images import save_grid, save_images
+from imagegen.runtime import resolve_device, resolve_precision
+from imagegen.tasks import Task, build_task
 
 logger = logging.getLogger(__name__)
 

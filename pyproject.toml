@@ -3,7 +3,7 @@ requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [project]
-name = "anim-gen"
+name = "tiny-imagegen"
 version = "0.1.0"
 description = "Animal image generation with GANs (DCGAN, ResNet-SNGAN) and diffusion (DDPM/DDIM), in plain PyTorch."
 readme = "README.md"
@@ -17,18 +17,18 @@ dependencies = [
 ]
 
 [project.scripts]
-anim-train = "anim_gen.train:main"
-anim-sample = "anim_gen.sample:main"
-anim-fid = "anim_gen.fid:main"
-anim-prepare = "anim_gen.prepare:main"
+imagegen-train = "imagegen.train:main"
+imagegen-sample = "imagegen.sample:main"
+imagegen-fid = "imagegen.fid:main"
+imagegen-prepare = "imagegen.prepare:main"
 
 [project.optional-dependencies]
-hf = ["datasets>=3.6"]  # anim-prepare --source hf:... (AFHQ and other Hub datasets)
+hf = ["datasets>=3.6"]  # imagegen-prepare --source hf:... (AFHQ and other Hub datasets)
 tensorboard = ["tensorboard>=2.15"]
 dev = ["pytest>=8", "ruff>=0.9", "scipy>=1.11", "nbformat>=5.9"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/anim_gen"]
+packages = ["src/imagegen"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

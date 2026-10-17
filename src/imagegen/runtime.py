@@ -1,7 +1,7 @@
 """Where and how training runs: seeding, device, precision, multi-GPU.
 
 Multi-GPU / multi-node: launch the same command with torchrun, e.g.
-    torchrun --nproc_per_node=4 -m anim_gen.train --preset cifar10-resnet
+    torchrun --nproc_per_node=4 -m imagegen.train --preset cifar10-resnet
 torchrun starts one process per GPU and sets RANK / WORLD_SIZE / LOCAL_RANK.
 
 We do NOT wrap the networks in DistributedDataParallel. A GAN step runs the

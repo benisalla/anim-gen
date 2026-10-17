@@ -8,16 +8,16 @@ always uses the **EMA** weights.
 
 ```bash
 # a grid of 64 images
-anim-sample --checkpoint checkpoints/run/last.pt --num 64 --out samples.png
+imagegen-sample --checkpoint checkpoints/run/last.pt --num 64 --out samples.png
 
 # conditional model: one class (name or id)
-anim-sample --checkpoint checkpoints/afhq64/last.pt --class cat --num 16 --out cats.png
+imagegen-sample --checkpoint checkpoints/afhq64/last.pt --class cat --num 16 --out cats.png
 
 # one PNG per image, e.g. to compute FID with another tool
-anim-sample --checkpoint ... --num 10000 --folder generated/ --batch-size 250
+imagegen-sample --checkpoint ... --num 10000 --folder generated/ --batch-size 250
 
 # latent walks: 4 rows of 8 images between two random noise inputs
-anim-sample --checkpoint ... --interpolate 4 --out walk.png
+imagegen-sample --checkpoint ... --interpolate 4 --out walk.png
 ```
 
 Diffusion-only flags:
@@ -35,8 +35,8 @@ Common flags: `--seed` (same seed = same images), `--device`,
 
 ```python
 import torch
-from anim_gen.sample import generate, interpolate, load_task
-from anim_gen.images import save_grid
+from imagegen.sample import generate, interpolate, load_task
+from imagegen.images import save_grid
 
 task, data_config, class_names = load_task("checkpoints/run/last.pt", device="cuda")
 g = torch.Generator().manual_seed(0)
@@ -56,7 +56,7 @@ diffusion).
 ## FID
 
 ```bash
-anim-fid --checkpoint checkpoints/run/last.pt --num-samples 10000
+imagegen-fid --checkpoint checkpoints/run/last.pt --num-samples 10000
 ```
 
 Compares 10k generated images with the dataset's test split (or the folder),

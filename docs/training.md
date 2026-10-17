@@ -1,17 +1,17 @@
 # Training guide
 
-Everything goes through one command, `anim-train`, configured by a **preset**
+Everything goes through one command, `imagegen-train`, configured by a **preset**
 plus any flag you want to override:
 
 ```bash
-anim-train --list-presets
-anim-train --preset cifar10-resnet                        # as is
-anim-train --preset cifar10-resnet --batch-size 128 --steps 100000 --output-dir checkpoints/c10
-anim-train --help                                         # every flag, with its default
+imagegen-train --list-presets
+imagegen-train --preset cifar10-resnet                        # as is
+imagegen-train --preset cifar10-resnet --batch-size 128 --steps 100000 --output-dir checkpoints/c10
+imagegen-train --help                                         # every flag, with its default
 ```
 
 Every flag is a field of `DataConfig`, `ModelConfig` or `TrainConfig`
-(`src/anim_gen/config.py`), spelled with dashes (`--lr-g`, `--attn-resolution`).
+(`src/imagegen/config.py`), spelled with dashes (`--lr-g`, `--attn-resolution`).
 Booleans have a `--no-` form (`--no-hflip`, `--no-conditional`).
 
 ## 1. Install
@@ -69,11 +69,11 @@ Read the logs:
 ## 4. GPU, multi-GPU, multi-node
 
 ```bash
-anim-train --preset cifar10-resnet                         # 1 GPU (used automatically)
-torchrun --nproc_per_node=4 -m anim_gen.train --preset cifar10-diffusion    # 4 GPUs
+imagegen-train --preset cifar10-resnet                         # 1 GPU (used automatically)
+torchrun --nproc_per_node=4 -m imagegen.train --preset cifar10-diffusion    # 4 GPUs
 # 2 machines x 8 GPUs (run on each machine, same --rdzv-endpoint):
 torchrun --nnodes=2 --nproc_per_node=8 --rdzv-backend=c10d --rdzv-endpoint=HOST:29500 \
-         -m anim_gen.train --preset afhq128-diffusion
+         -m imagegen.train --preset afhq128-diffusion
 ```
 
 `--batch-size` is **per GPU**. Each process computes its own gradients and
@@ -94,7 +94,7 @@ is available on the CLI: `--time-budget-hours 11.5`.
 ## 6. Resume
 
 ```bash
-anim-train --preset cifar10-resnet --output-dir checkpoints/c10 --resume checkpoints/c10/last.pt
+imagegen-train --preset cifar10-resnet --output-dir checkpoints/c10 --resume checkpoints/c10/last.pt
 ```
 
 Weights, EMA weights, optimizer and LR-scheduler state, RNG state and the
@@ -104,13 +104,13 @@ Use the **same preset and flags** as the original run (`--steps` may be raised).
 ## 7. FID during training
 
 ```bash
-anim-train --preset cifar10-resnet --fid-every 5000 --fid-samples 10000
+imagegen-train --preset cifar10-resnet --fid-every 5000 --fid-samples 10000
 ```
 
 Downloads Inception-v3 weights (~100 MB) once. Real-image statistics are
 computed once and cached in the output folder. `best.pt` follows the lowest
 FID. On several GPUs the work is split between them. Afterwards:
-`anim-fid --checkpoint checkpoints/run/best.pt --num-samples 10000`.
+`imagegen-fid --checkpoint checkpoints/run/best.pt --num-samples 10000`.
 
 ## 8. Tuning notes
 

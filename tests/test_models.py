@@ -5,8 +5,8 @@ import torch
 from conftest import tiny_model_config
 from torch.nn.utils import parametrize
 
-from anim_gen.models import build_discriminator, build_generator, build_unet
-from anim_gen.models.layers import ConditionalBatchNorm2d, SelfAttention, gan_widths
+from imagegen.models import build_discriminator, build_generator, build_unet
+from imagegen.models.layers import ConditionalBatchNorm2d, SelfAttention, gan_widths
 
 
 def test_gan_widths_double_and_cap():

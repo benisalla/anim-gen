@@ -18,8 +18,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from anim_gen.config import ModelConfig
-from anim_gen.models.layers import (
+from imagegen.config import ModelConfig
+from imagegen.models.layers import (
     ConditionalBatchNorm2d,
     SelfAttention,
     gan_widths,

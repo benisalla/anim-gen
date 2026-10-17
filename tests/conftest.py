@@ -5,7 +5,7 @@ import dataclasses
 import pytest
 import torch
 
-from anim_gen.config import ModelConfig, TrainConfig
+from imagegen.config import ModelConfig, TrainConfig
 
 # Tiny models are faster single-threaded (no thread start-up per op).
 torch.set_num_threads(1)

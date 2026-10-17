@@ -1,10 +1,10 @@
-"""anim-prepare turns folders and zips into square, class-organised PNG folders."""
+"""imagegen-prepare turns folders and zips into square, class-organised PNG folders."""
 
 import zipfile
 
 from PIL import Image
 
-from anim_gen.prepare import center_square, iter_folder, iter_zip, main, resize
+from imagegen.prepare import center_square, iter_folder, iter_zip, main, resize
 
 
 def test_center_square_and_resize():

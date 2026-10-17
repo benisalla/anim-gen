@@ -22,13 +22,13 @@ from torch import nn
 from torch.optim import Adam, AdamW
 from torch.optim.lr_scheduler import LambdaLR
 
-from anim_gen.config import ModelConfig, TrainConfig
-from anim_gen.diffaugment import diff_augment
-from anim_gen.diffusion import GaussianDiffusion
-from anim_gen.ema import EMA
-from anim_gen.losses import d_loss, g_loss, gradient_penalty, r1_penalty
-from anim_gen.models import build_discriminator, build_generator, build_unet
-from anim_gen.runtime import autocast, broadcast_module, sync_gradients
+from imagegen.config import ModelConfig, TrainConfig
+from imagegen.diffaugment import diff_augment
+from imagegen.diffusion import GaussianDiffusion
+from imagegen.ema import EMA
+from imagegen.losses import d_loss, g_loss, gradient_penalty, r1_penalty
+from imagegen.models import build_discriminator, build_generator, build_unet
+from imagegen.runtime import autocast, broadcast_module, sync_gradients
 
 logger = logging.getLogger(__name__)
 

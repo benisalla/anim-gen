@@ -4,9 +4,9 @@ import pytest
 import torch
 import torch.nn.functional as F
 
-from anim_gen.diffaugment import diff_augment, parse_policy
-from anim_gen.ema import EMA
-from anim_gen.losses import d_loss, g_loss, gradient_penalty, r1_penalty
+from imagegen.diffaugment import diff_augment, parse_policy
+from imagegen.ema import EMA
+from imagegen.losses import d_loss, g_loss, gradient_penalty, r1_penalty
 
 REAL = torch.tensor([2.0, -1.0, 0.5])
 FAKE = torch.tensor([-3.0, 0.0, 1.5])

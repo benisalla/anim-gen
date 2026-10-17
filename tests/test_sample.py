@@ -5,12 +5,12 @@ import torch
 from conftest import tiny_model_config, tiny_train_config
 from PIL import Image
 
-from anim_gen.config import DataConfig
-from anim_gen.data import build_dataset
-from anim_gen.images import image_grid, to_uint8
-from anim_gen.sample import generate, interpolate, load_task, main, slerp
-from anim_gen.tasks import build_task
-from anim_gen.train import LAST_CHECKPOINT, build_loader, train
+from imagegen.config import DataConfig
+from imagegen.data import build_dataset
+from imagegen.images import image_grid, to_uint8
+from imagegen.sample import generate, interpolate, load_task, main, slerp
+from imagegen.tasks import build_task
+from imagegen.train import LAST_CHECKPOINT, build_loader, train
 
 CLASSES = ["circle", "square", "triangle"]
 

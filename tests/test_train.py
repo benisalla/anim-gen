@@ -6,11 +6,11 @@ import pytest
 import torch
 from conftest import tiny_model_config, tiny_train_config
 
-from anim_gen.config import DataConfig
-from anim_gen.data import build_dataset
-from anim_gen.runtime import resolve_device, resolve_precision
-from anim_gen.tasks import build_task
-from anim_gen.train import (
+from imagegen.config import DataConfig
+from imagegen.data import build_dataset
+from imagegen.runtime import resolve_device, resolve_precision
+from imagegen.tasks import build_task
+from imagegen.train import (
     LAST_CHECKPOINT,
     build_and_train,
     build_loader,
@@ -149,7 +149,7 @@ def test_bf16_autocast_trains_on_cpu(tmp_path):
 
 
 def test_build_and_train_fills_model_shape_from_data(tmp_path):
-    from anim_gen.config import ModelConfig
+    from imagegen.config import ModelConfig
 
     task, _state = build_and_train(
         DataConfig(dataset="shapes", image_size=8, conditional=True, limit=16),

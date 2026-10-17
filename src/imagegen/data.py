@@ -6,7 +6,7 @@ Gaussian noise scale. Supported sources:
 - "mnist", "fashion-mnist", "cifar10": torchvision, downloaded on first use
 - "folder": any directory of images. Sub-directories become classes
   (data/afhq64/cat/*.png, data/afhq64/dog/*.png, ...); a flat folder is one class.
-  Use `anim-prepare` to build one from a Hugging Face dataset such as AFHQ.
+  Use `imagegen-prepare` to build one from a Hugging Face dataset such as AFHQ.
 - "shapes": procedural circles / squares / triangles, generated on the fly.
   No download: used by the tests and for quick checks of the whole pipeline.
 """
@@ -20,7 +20,7 @@ from PIL import Image
 from torch.utils.data import Dataset, Subset
 from torchvision import datasets, transforms
 
-from anim_gen.config import DataConfig
+from imagegen.config import DataConfig
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".bmp"}
 

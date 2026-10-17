@@ -197,7 +197,7 @@ flowchart LR
 - **Mixed precision**: bf16 autocast on Ampere+ GPUs. No fp16: GAN losses and
   gradient penalties overflow too easily.
 - **Checkpoints** hold the weights, EMA weights, optimizer and scheduler
-  states, RNG states and all three configs; `anim-sample` rebuilds the model
+  states, RNG states and all three configs; `imagegen-sample` rebuilds the model
   from them with no extra flags.
 
 ## 5. FID (`fid.py`)

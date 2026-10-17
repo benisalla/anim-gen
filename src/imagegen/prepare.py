@@ -8,11 +8,11 @@ write one PNG per image, one sub-folder per class:
 
 Examples:
     # AFHQ (Animal Faces HQ: cat / dog / wild, 512x512), streamed from the Hub
-    anim-prepare --source hf:huggan/AFHQ --sizes 64 128 --out 'data/afhq{size}'
+    imagegen-prepare --source hf:huggan/AFHQ --sizes 64 128 --out 'data/afhq{size}'
     # your own photos: a folder (sub-folders = classes) or a zip of one
-    anim-prepare --source ~/Pictures/animals.zip --sizes 64 --out 'data/animals{size}'
+    imagegen-prepare --source ~/Pictures/animals.zip --sizes 64 --out 'data/animals{size}'
 
-Then train with:  anim-train --preset afhq64-resnet --data-dir data/afhq64
+Then train with:  imagegen-train --preset afhq64-resnet --data-dir data/afhq64
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ from pathlib import Path, PurePosixPath
 
 from PIL import Image
 
-from anim_gen.data import IMAGE_EXTENSIONS
+from imagegen.data import IMAGE_EXTENSIONS
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ def iter_hf(
     try:
         from datasets import load_dataset
     except ImportError as e:  # pragma: no cover
-        raise SystemExit("anim-prepare hf:... needs `pip install -e '.[hf]'`") from e
+        raise SystemExit("imagegen-prepare hf:... needs `pip install -e '.[hf]'`") from e
     dataset = load_dataset(dataset_id, split=split, streaming=True)
     names = None
     if label_column is not None:

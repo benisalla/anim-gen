@@ -3,8 +3,8 @@
 import torch
 from PIL import Image
 
-from anim_gen.config import DataConfig
-from anim_gen.data import (
+from imagegen.config import DataConfig
+from imagegen.data import (
     ImageFolderDataset,
     ShapesDataset,
     build_dataset,

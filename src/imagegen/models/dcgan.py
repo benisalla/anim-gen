@@ -15,8 +15,8 @@ from __future__ import annotations
 import torch
 from torch import nn
 
-from anim_gen.config import ModelConfig
-from anim_gen.models.layers import gan_widths, raw_weight, sn
+from imagegen.config import ModelConfig
+from imagegen.models.layers import gan_widths, raw_weight, sn
 
 
 def _dcgan_init(module: nn.Module) -> None:

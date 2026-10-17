@@ -10,7 +10,7 @@ Inception weights, not the TensorFlow ones of the original paper, so numbers
 are close to but not exactly comparable with published FIDs. Compare runs of
 this repo with each other, at the same number of samples.
 
-    anim-fid --checkpoint checkpoints/run/last.pt --num-samples 10000
+    imagegen-fid --checkpoint checkpoints/run/last.pt --num-samples 10000
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ import torch.nn.functional as F
 from torch import nn
 from torch.utils.data import DataLoader, Dataset, Subset
 
-from anim_gen.runtime import get_dist_info
+from imagegen.runtime import get_dist_info
 
 logger = logging.getLogger(__name__)
 
@@ -162,9 +162,9 @@ def generated_stats(
 
 def main(argv: Sequence[str] | None = None) -> None:
     """CLI: FID of a checkpoint against its training dataset."""
-    from anim_gen.data import build_dataset
-    from anim_gen.runtime import resolve_device
-    from anim_gen.sample import load_task
+    from imagegen.data import build_dataset
+    from imagegen.runtime import resolve_device
+    from imagegen.sample import load_task
 
     p = argparse.ArgumentParser(description="FID of a trained checkpoint.")
     p.add_argument("--checkpoint", type=Path, required=True)

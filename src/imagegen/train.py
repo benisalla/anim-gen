@@ -8,8 +8,8 @@ The file reads top to bottom:
 4. train()       - the loop (takes ready-made objects, easy to test)
 5. CLI           - main() builds everything from a preset and flags
 
-Run it with:  anim-train --preset mnist-dcgan          (anim-train --help for all flags)
-Multi-GPU:    torchrun --nproc_per_node=4 -m anim_gen.train --preset cifar10-resnet
+Run it with:  imagegen-train --preset mnist-dcgan          (imagegen-train --help for all flags)
+Multi-GPU:    torchrun --nproc_per_node=4 -m imagegen.train --preset cifar10-resnet
 """
 
 from __future__ import annotations
@@ -30,15 +30,15 @@ import torch
 import torch.distributed as dist
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
-from anim_gen.config import (
+from imagegen.config import (
     PRESETS,
     DataConfig,
     ModelConfig,
     TrainConfig,
     config_to_dict,
 )
-from anim_gen.images import save_grid
-from anim_gen.runtime import (
+from imagegen.images import save_grid
+from imagegen.runtime import (
     DistInfo,
     all_reduce_mean,
     get_dist_info,
@@ -48,7 +48,7 @@ from anim_gen.runtime import (
     seed_everything,
     setup_distributed,
 )
-from anim_gen.tasks import Task, build_task
+from imagegen.tasks import Task, build_task
 
 try:  # numpy is optional; we only need it for RNG snapshots
     import numpy as np
@@ -487,8 +487,8 @@ def build_and_train(
     callback: Callable[[dict[str, Any]], None] | None = None,
 ) -> tuple[Task, TrainState]:
     """Dataset -> model -> train. Shared by the CLI and the notebook."""
-    from anim_gen.data import build_dataset, dataset_classes, num_classes
-    from anim_gen.models import count_parameters
+    from imagegen.data import build_dataset, dataset_classes, num_classes
+    from imagegen.models import count_parameters
 
     info = info or get_dist_info()
     seed_everything(train_config.seed)  # same initial weights on every run
@@ -535,8 +535,8 @@ def make_fid_fn(
     data_config: DataConfig, train_config: TrainConfig, device: torch.device
 ) -> Callable[[Task], float]:
     """FID of the task's EMA model against the (cached) real-data statistics."""
-    from anim_gen.data import build_dataset
-    from anim_gen.fid import InceptionFeatures, dataset_stats, frechet_distance, generated_stats
+    from imagegen.data import build_dataset
+    from imagegen.fid import InceptionFeatures, dataset_stats, frechet_distance, generated_stats
 
     extractor = InceptionFeatures().to(device)
     n = train_config.fid_samples

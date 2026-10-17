@@ -6,7 +6,7 @@ reproduced and a checkpoint can rebuild its own model.
 
 PRESETS at the bottom are named starting points (e.g. "cifar10-resnet").
 On the command line every field can still be overridden one by one:
-    anim-train --preset cifar10-resnet --batch-size 32 --steps 2000
+    imagegen-train --preset cifar10-resnet --batch-size 32 --steps 2000
 """
 
 from dataclasses import asdict, dataclass, fields
@@ -216,7 +216,7 @@ PRESETS: dict[str, dict[str, Any]] = {
         "unet_channels": 128, "channel_mult": (1, 2, 2, 2), "attn_resolutions": (16,),
         "dropout": 0.1, "steps": 200_000, "batch_size": 128,
     },
-    # --- AFHQ animal faces (cat / dog / wild), prepared with anim-prepare ---
+    # --- AFHQ animal faces (cat / dog / wild), prepared with imagegen-prepare ---
     "afhq64-resnet": {
         **_RESNET, "dataset": "folder", "data_dir": Path("data/afhq64"), "image_size": 64,
         "conditional": True, "g_channels": 64, "d_channels": 64, "max_channels": 512,

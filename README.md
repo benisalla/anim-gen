@@ -1,4 +1,4 @@
-# anim-gen
+# tiny-imagegen
 
 **Generate images of animals (and digits, and objects) with GANs and diffusion models, in plain PyTorch.**
 
@@ -51,7 +51,7 @@ did *not* work, e.g. ε-prediction backgrounds and WGAN-GP with a BatchNorm crit
 [docs/testing.md](docs/testing.md#3-sanity-runs-on-real-data).
 
 AFHQ (16,130 images: 5,653 cat / 5,239 dog / 5,238 wild) is prepared at 64 and 128 px with
-`anim-prepare`; full CIFAR-10 / AFHQ training needs a GPU (use the notebook). No pretrained
+`imagegen-prepare`; full CIFAR-10 / AFHQ training needs a GPU (use the notebook). No pretrained
 weights are published yet.
 
 ## Quick start
@@ -66,19 +66,19 @@ pip install -e '.[dev]'          # CPU-only torch: see docs/training.md
 pytest
 
 # 3. a first real model: conditional DCGAN on MNIST (one digit per row of the grid)
-anim-train --preset mnist-dcgan --conditional --steps 4000 --output-dir checkpoints/mnist-dcgan
+imagegen-train --preset mnist-dcgan --conditional --steps 4000 --output-dir checkpoints/mnist-dcgan
 
 # 4. generate
-anim-sample --checkpoint checkpoints/mnist-dcgan/last.pt --class 7 --num 16 --out sevens.png
+imagegen-sample --checkpoint checkpoints/mnist-dcgan/last.pt --class 7 --num 16 --out sevens.png
 
 # 5. the real thing: animal faces (needs a GPU; see the Kaggle/Colab notebook)
 pip install -e '.[hf]'
-anim-prepare --source hf:huggan/AFHQ --sizes 64 --out 'data/afhq{size}'
-anim-train --preset afhq64-resnet --output-dir checkpoints/afhq64-resnet
+imagegen-prepare --source hf:huggan/AFHQ --sizes 64 --out 'data/afhq{size}'
+imagegen-train --preset afhq64-resnet --output-dir checkpoints/afhq64-resnet
 ```
 
-`anim-train --list-presets` shows every preset; any setting can be
-overridden with a flag (`anim-train --preset cifar10-resnet --batch-size 128`).
+`imagegen-train --list-presets` shows every preset; any setting can be
+overridden with a flag (`imagegen-train --preset cifar10-resnet --batch-size 128`).
 
 ## Documentation
 
@@ -94,7 +94,7 @@ overridden with a flag (`anim-train --preset cifar10-resnet --batch-size 128`).
 ## Repository layout
 
 ```
-src/anim_gen/            the package
+src/imagegen/            the package
   config.py              every hyperparameter (DataConfig, ModelConfig, TrainConfig) + PRESETS
   data.py                MNIST / Fashion-MNIST / CIFAR-10 / image folders / procedural shapes
   models/
@@ -108,10 +108,10 @@ src/anim_gen/            the package
   ema.py                 exponential moving average of the weights
   tasks.py               GANTask / DiffusionTask: one interface for both families
   runtime.py             device, precision, multi-GPU helpers
-  train.py               training loop + anim-train CLI
-  sample.py              anim-sample CLI (grids, per-class, interpolation)
-  fid.py                 FID + anim-fid CLI
-  prepare.py             anim-prepare CLI (AFHQ / folders / zips -> resized class folders)
+  train.py               training loop + imagegen-train CLI
+  sample.py              imagegen-sample CLI (grids, per-class, interpolation)
+  fid.py                 FID + imagegen-fid CLI
+  prepare.py             imagegen-prepare CLI (AFHQ / folders / zips -> resized class folders)
   images.py              tensor <-> PNG helpers
 notebooks/               Kaggle / Colab notebook (+ the script that builds it from src/)
 tests/                   pytest suite (CPU only, offline)
@@ -125,7 +125,7 @@ legacy/                  the original Colab notebook, kept for reference (and wh
 - [x] Class-conditional generation for all three; classifier-free guidance for diffusion
 - [x] Presets for MNIST, CIFAR-10, AFHQ 64/128; AFHQ preparation from the Hugging Face Hub
 - [x] CPU, single-GPU, multi-GPU and multi-node training; bf16; resume; time budget
-- [x] FID (training-time and `anim-fid`); Kaggle/Colab notebook; tests
+- [x] FID (training-time and `imagegen-fid`); Kaggle/Colab notebook; tests
 - [x] Sanity runs on CPU (MNIST, see Results)
 - [ ] Full GPU runs on CIFAR-10 and AFHQ, with FID, and published checkpoints
 - [ ] StyleGAN2-style generator (mapping network, modulated convs) for AFHQ 256+

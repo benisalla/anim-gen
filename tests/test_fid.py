@@ -5,8 +5,8 @@ import pytest
 import torch
 from conftest import tiny_model_config
 
-from anim_gen.fid import FeatureStats, frechet_distance, generated_stats
-from anim_gen.tasks import build_task
+from imagegen.fid import FeatureStats, frechet_distance, generated_stats
+from imagegen.tasks import build_task
 
 
 def test_feature_stats_match_numpy():

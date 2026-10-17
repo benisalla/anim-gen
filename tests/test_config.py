@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from anim_gen.config import (
+from imagegen.config import (
     PRESETS,
     DataConfig,
     ModelConfig,
@@ -13,7 +13,7 @@ from anim_gen.config import (
     config_from_dict,
     config_to_dict,
 )
-from anim_gen.train import configs_from_args, parse_args
+from imagegen.train import configs_from_args, parse_args
 
 
 @pytest.mark.parametrize(

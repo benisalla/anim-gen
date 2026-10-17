@@ -9,11 +9,11 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from conftest import tiny_model_config, tiny_train_config
 
-from anim_gen.config import DataConfig
-from anim_gen.data import build_dataset
-from anim_gen.runtime import get_dist_info
-from anim_gen.tasks import build_task
-from anim_gen.train import build_loader, train
+from imagegen.config import DataConfig
+from imagegen.data import build_dataset
+from imagegen.runtime import get_dist_info
+from imagegen.tasks import build_task
+from imagegen.train import build_loader, train
 
 
 def free_port() -> int:

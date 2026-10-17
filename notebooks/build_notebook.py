@@ -1,8 +1,8 @@
 """Build notebooks/train_colab_kaggle.ipynb: a self-contained training notebook.
 
-Every module of src/anim_gen/ is written into the notebook as a `%%writefile`
+Every module of src/imagegen/ is written into the notebook as a `%%writefile`
 cell, so the notebook runs the exact package code and needs no GitHub access.
-Regenerate after changing src/anim_gen (keeps the notebook identical to the code):
+Regenerate after changing src/imagegen (keeps the notebook identical to the code):
     python notebooks/build_notebook.py . notebooks/train_colab_kaggle.ipynb
 """
 
@@ -13,7 +13,7 @@ import nbformat as nbf
 
 ROOT = Path(sys.argv[1])
 OUT = Path(sys.argv[2])
-PACKAGE = ROOT / "src" / "anim_gen"
+PACKAGE = ROOT / "src" / "imagegen"
 
 # Written in dependency order; each one gets its own cell.
 MODULES = [
@@ -51,13 +51,13 @@ def code(text: str) -> None:
 
 # ---------------------------------------------------------------------------
 md("""
-# anim-gen — training notebook (Kaggle & Colab)
+# tiny-imagegen — training notebook (Kaggle & Colab)
 
 Train an image generator on a **free Kaggle or Colab GPU**: a GAN (DCGAN or
 ResNet-SNGAN) or a diffusion model (DDPM/DDIM U-Net), on MNIST, CIFAR-10 or
 **AFHQ animal faces** (cat / dog / wild).
 
-The notebook is **self-contained**: section 2 writes the `anim_gen` package
+The notebook is **self-contained**: section 2 writes the `imagegen` package
 (identical to the repo) to disk, then everything uses it. Pick a preset in
 section 3 and press **Run all**.
 
@@ -87,30 +87,30 @@ print("ready")
 """)
 
 md("""
-## 2. The `anim_gen` package
+## 2. The `imagegen` package
 
-Each cell below writes one file of the repo's `src/anim_gen/` package
+Each cell below writes one file of the repo's `src/imagegen/` package
 (generated from the repo by `notebooks/build_notebook.py`). You do not need to
 read them to train; they are here so the notebook runs anywhere, offline.
 """)
 code("""
 import os
 
-os.makedirs("anim_gen/models", exist_ok=True)
+os.makedirs("imagegen/models", exist_ok=True)
 """)
 for name, what in MODULES:
     source = (PACKAGE / name).read_text().rstrip() + "\n"
-    cells.append(nbf.v4.new_markdown_cell(f"`anim_gen/{name}`: {what}"))
-    cells.append(nbf.v4.new_code_cell(f"%%writefile anim_gen/{name}\n{source}"))
+    cells.append(nbf.v4.new_markdown_cell(f"`imagegen/{name}`: {what}"))
+    cells.append(nbf.v4.new_code_cell(f"%%writefile imagegen/{name}\n{source}"))
 code("""
 import importlib
 import sys
 
 sys.path.insert(0, os.getcwd())
 importlib.invalidate_caches()
-import anim_gen
+import imagegen
 
-print("anim_gen", anim_gen.__version__, "ready")
+print("imagegen", imagegen.__version__, "ready")
 """)
 
 # ---------------------------------------------------------------------------
@@ -137,9 +137,9 @@ from pathlib import Path
 
 import torch
 
-from anim_gen.train import configs_from_args, parse_args
+from imagegen.train import configs_from_args, parse_args
 
-PRESET = "cifar10-resnet"   # see the table above, or anim_gen.config.PRESETS
+PRESET = "cifar10-resnet"   # see the table above, or imagegen.config.PRESETS
 SMOKE_TEST = False          # True = tiny quick check of the whole notebook
 USE_GOOGLE_DRIVE = False    # Colab only: keep checkpoints on Drive (survive disconnects)
 RESUME = True               # continue from last.pt in OUTPUT_DIR if it exists
@@ -154,7 +154,7 @@ if ON_COLAB and USE_GOOGLE_DRIVE:
     from google.colab import drive
 
     drive.mount("/content/drive")
-    WORK = Path("/content/drive/MyDrive/anim-gen")
+    WORK = Path("/content/drive/MyDrive/tiny-imagegen")
 elif ON_KAGGLE:
     WORK = Path("/kaggle/working")
 elif ON_COLAB:
@@ -214,8 +214,8 @@ If the Hub rate-limits you, add a token: *Add-ons → Secrets* `HF_TOKEN` on
 Kaggle, or `os.environ["HF_TOKEN"] = "..."`.
 """)
 code("""
-from anim_gen.data import build_dataset, dataset_classes
-from anim_gen.prepare import iter_hf, prepare
+from imagegen.data import build_dataset, dataset_classes
+from imagegen.prepare import iter_hf, prepare
 
 if data_config.dataset == "folder" and not any(data_config.data_dir.rglob("*.png")):
     print(f"preparing AFHQ at {data_config.image_size}px in {data_config.data_dir} ...")
@@ -230,7 +230,7 @@ print(f"{len(dataset):,} images, classes: {dataset_classes(dataset)}")
 code("""
 import matplotlib.pyplot as plt
 
-from anim_gen.images import image_grid
+from imagegen.images import image_grid
 
 
 def show(images, title="", nrow=None, size=6):
@@ -254,9 +254,9 @@ md("""
 we build them once on their own to show their sizes.
 """)
 code("""
-from anim_gen.data import num_classes
-from anim_gen.models import count_parameters
-from anim_gen.tasks import build_task
+from imagegen.data import num_classes
+from imagegen.models import count_parameters
+from imagegen.tasks import build_task
 
 shaped = dataclasses.replace(model_config, num_classes=num_classes(data_config, dataset))
 preview_task = build_task(shaped, train_config, torch.device("cpu"))
@@ -332,10 +332,10 @@ def dashboard(event):
 md("""
 ## 7. Training
 
-Same code as the repo's `anim-train`. It writes to `OUTPUT_DIR`:
+Same code as the repo's `imagegen-train`. It writes to `OUTPUT_DIR`:
 `last.pt` (every `ckpt_every` steps), `best.pt` (lowest FID, if `FID_EVERY > 0`),
 `samples/step_*.png`, `real.png` and `metrics.jsonl`. The checkpoints work with
-the repo's `anim-sample`, `anim-fid` and `anim-train --resume`.
+the repo's `imagegen-sample`, `imagegen-fid` and `imagegen-train --resume`.
 
 **Interrupted, or hit the time budget?** Run the notebook again with
 `RESUME = True`: it continues from `last.pt`. On Kaggle, to continue in a *new*
@@ -343,7 +343,7 @@ session, add the previous version's output as input data and copy its
 `checkpoints/` folder to `/kaggle/working` first.
 """)
 code("""
-from anim_gen.train import build_and_train
+from imagegen.train import build_and_train
 
 task, state = build_and_train(data_config, model_config, train_config, callback=dashboard)
 print(f"stopped at step {state.step:,}; outputs in {OUTPUT_DIR}")
@@ -357,7 +357,7 @@ Samples from the EMA weights. For a conditional model: one row per class, then
 latent walks (spherical interpolation between two noise inputs).
 """)
 code("""
-from anim_gen.sample import generate, interpolate
+from imagegen.sample import generate, interpolate
 
 g = torch.Generator().manual_seed(0)
 kwargs = {"steps": 100, "guidance_scale": 2.0 if task.conditional else 1.0}
@@ -377,13 +377,13 @@ show(walk, "latent walks", nrow=8, size=8)
 md("""
 ## 9. Download the trained model
 
-`anim-gen-run.zip` contains `last.pt`, `best.pt` (if any), the sample grids
-and the metrics. Locally: `anim-sample --checkpoint last.pt --num 64`.
+`imagegen-run.zip` contains `last.pt`, `best.pt` (if any), the sample grids
+and the metrics. Locally: `imagegen-sample --checkpoint last.pt --num 64`.
 """)
 code("""
 import shutil
 
-archive = shutil.make_archive(str(WORK / "anim-gen-run"), "zip", OUTPUT_DIR)
+archive = shutil.make_archive(str(WORK / "imagegen-run"), "zip", OUTPUT_DIR)
 print("saved", archive)
 if ON_COLAB:
     from google.colab import files
