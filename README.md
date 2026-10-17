@@ -42,9 +42,13 @@ flowchart LR
 
 CPU sanity runs (shared, heavily loaded 8-core CPU; no GPU). Conditional models: row r = digit r.
 
-| conditional DCGAN, MNIST, 4k steps (~40 min) | conditional diffusion U-Net (0.44M), MNIST, 2.5k steps (~35 min) |
-|---|---|
-| ![](docs/images/mnist-dcgan-4k.png) | ![](docs/images/mnist-diffusion-2.5k.png) |
+| DCGAN, non-saturating loss, 4k steps | DCGAN, LSGAN + R1, 3k steps | diffusion U-Net (0.44M), v-prediction, 2.5k steps |
+|---|---|---|
+| ![](docs/images/mnist-dcgan-4k.png) | ![](docs/images/mnist-dcgan-lsgan-3k.png) | ![](docs/images/mnist-diffusion-v-2.5k.png) |
+
+Every architecture and GAN loss was trained on MNIST; the full record (including what
+did *not* work, e.g. ε-prediction backgrounds and WGAN-GP with a BatchNorm critic) is in
+[docs/testing.md](docs/testing.md#3-sanity-runs-on-real-data).
 
 AFHQ (16,130 images: 5,653 cat / 5,239 dog / 5,238 wild) is prepared at 64 and 128 px with
 `anim-prepare`; full CIFAR-10 / AFHQ training needs a GPU (use the notebook). No pretrained

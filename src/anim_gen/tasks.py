@@ -14,6 +14,7 @@ to know which family they are driving:
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Iterator
 
 import torch
@@ -28,6 +29,8 @@ from anim_gen.ema import EMA
 from anim_gen.losses import d_loss, g_loss, gradient_penalty, r1_penalty
 from anim_gen.models import build_discriminator, build_generator, build_unet
 from anim_gen.runtime import autocast, broadcast_module, sync_gradients
+
+logger = logging.getLogger(__name__)
 
 Batches = Iterator[tuple[torch.Tensor, torch.Tensor]]
 
@@ -100,6 +103,9 @@ class GANTask(Task):
             self.networks["G_ema"] = self.G_ema
             return
         self.D = build_discriminator(model_config).to(device)
+        if cfg.loss == "wgan-gp" and any(isinstance(m, nn.BatchNorm2d) for m in self.D.modules()):
+            # The penalty is per sample; BatchNorm mixes samples (Gulrajani et al. advise against it).
+            logger.warning("wgan-gp with a BatchNorm discriminator: consider --spectral-norm")
         broadcast_module(self.G)  # every process starts from rank 0's weights
         broadcast_module(self.D)
         self.G_ema = EMA(self.G, cfg.ema_decay, cfg.ema_start)

@@ -197,6 +197,7 @@ PRESETS: dict[str, dict[str, Any]] = {
     },
     "mnist-diffusion": {
         **_UNET, "dataset": "mnist", "image_size": 32, "hflip": False, "conditional": True,
+        "prediction": "v",  # eps drifts in brightness when sampling a small model (docs/testing.md)
         "unet_channels": 32, "channel_mult": (1, 2, 2), "attn_resolutions": (8,),
         "steps": 20_000, "batch_size": 128,
     },
@@ -211,7 +212,7 @@ PRESETS: dict[str, dict[str, Any]] = {
         "attn_resolution": 16, "steps": 60_000, "lr_g": 2e-4, "lr_d": 2e-4,
     },
     "cifar10-diffusion": {
-        **_UNET, "dataset": "cifar10", "image_size": 32, "conditional": True,
+        **_UNET, "dataset": "cifar10", "image_size": 32, "conditional": True, "prediction": "v",
         "unet_channels": 128, "channel_mult": (1, 2, 2, 2), "attn_resolutions": (16,),
         "dropout": 0.1, "steps": 200_000, "batch_size": 128,
     },
