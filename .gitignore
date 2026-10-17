@@ -3,9 +3,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 *.pyc
-checkpoints/
-outputs/
-models/
-data/
-runs/
+/checkpoints/
+/outputs/
+/models/
+/data/
+/runs/
 *.tmp
